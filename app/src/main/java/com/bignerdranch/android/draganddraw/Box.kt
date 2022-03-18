@@ -11,15 +11,15 @@ class Box(private val start: PointF) {
     var end: PointF = start
 
     val left: Float
-        get() = Math.min(start.x, end.x)
+        get() = start.x.coerceAtMost(end.x)
 
     val right: Float
-        get() = Math.max(start.x, end.x)
+        get() = start.x.coerceAtLeast(end.x)
 
     val top: Float
-        get() = Math.min(start.y, end.y)
+        get() = start.y.coerceAtMost(end.y)
 
     val bottom: Float
-        get() = Math.max(start.y, end.y)
+        get() = start.y.coerceAtLeast(end.y)
 
 }

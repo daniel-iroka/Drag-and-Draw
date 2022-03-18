@@ -9,11 +9,11 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 
-/** This Class is where we setup our custom View and write the Implementation for listening to touch events from the USER.**/
+/** This Class is where we setup our custom View and write the Implementation for listening to touch events from the USER and draw boxes on the Screen.**/
 
 private const val TAG = "BoxDrawingView"
 
-// TODO - WHEN I COME BACK, I WILL GO THROUGH THIS WHOLE FREAKIN APP AND THEN WHEN I AM DONE WITH THE CHALLENGES, I WILL RESEARCH ON MOTION EVENTS.
+// TODO - WHEN I COME BACK, I WILL DO THE CHALLENGES AND AFTER I AM DONE I WILL RESEARCH ON MOTION EVENTS LATER LATER SHA.
 
 class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         View(context, attrs) {
@@ -70,6 +70,7 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
 
         return true
     }
+
 
     // will update the list of boxes... I think ???
     private fun updateCurrentBox(current: PointF) {
