@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PointF
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -12,20 +14,46 @@ import android.view.View
 /** This Class is where we setup our custom View and write the Implementation for listening to touch events from the USER and draw boxes on the Screen.**/
 
 private const val TAG = "BoxDrawingView"
-
-// TODO - WHEN I COME BACK, I WILL DO THE CHALLENGES AND AFTER I AM DONE I WILL RESEARCH ON MOTION EVENTS LATER LATER SHA.
+private const val BOX_STATE = "box"
+private const val VIEW_STATE = "view"
 
 class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         View(context, attrs) {
 
     private var currentBox: Box? = null
-    private val boxen = mutableListOf<Box>()  // list of boxes to be drawn out on the screen
+    private var boxen = mutableListOf<Box>()  // list of boxes to be drawn out on the screen
+//    private var box = boxen as ArrayList
+
     private val boxPaint = Paint().apply {
-        color = 0x22ff0000.toInt()
+        color = 0x22ff0000
     }
     private val backGroundPaint = Paint().apply {
         color = 0xfff8efe0.toInt()
     }
+
+
+    init {
+        isSaveEnabled = true
+    }
+
+
+    override fun onSaveInstanceState(): Parcelable {
+        val bundle = Bundle()
+//        bundle.putParcelableArrayList(BOX_STATE, box)
+        bundle.putParcelable(VIEW_STATE, super.onSaveInstanceState())
+
+        return bundle
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
+        var viewState = state
+        if (viewState is Bundle) {
+//            box = viewState.getParcelableArrayList(BOX_STATE)!!
+            viewState = viewState.getParcelable(VIEW_STATE)!!
+        }
+        super.onRestoreInstanceState(state)
+    }
+
 
     override fun onDraw(canvas: Canvas) {
         // Fill in the background
