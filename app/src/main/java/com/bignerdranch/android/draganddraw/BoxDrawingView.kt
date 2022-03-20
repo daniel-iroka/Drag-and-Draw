@@ -21,7 +21,7 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         View(context, attrs) {
 
     private var currentBox: Box? = null
-    private var boxen = mutableListOf<Box>()  // list of boxes to be drawn out on the screen
+    private var boxen = arrayListOf<Box>()  // list of boxes to be drawn out on the screen
 //    private var box = boxen as ArrayList
 
     private val boxPaint = Paint().apply {
@@ -39,19 +39,24 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
 
     override fun onSaveInstanceState(): Parcelable {
         val bundle = Bundle()
-//        bundle.putParcelableArrayList(BOX_STATE, box)
+        bundle.putParcelableArrayList(BOX_STATE, boxen)
         bundle.putParcelable(VIEW_STATE, super.onSaveInstanceState())
 
+        super.onSaveInstanceState()
         return bundle
     }
 
     override fun onRestoreInstanceState(state: Parcelable) {
+        super.onRestoreInstanceState(state)
+
         var viewState = state
         if (viewState is Bundle) {
-//            box = viewState.getParcelableArrayList(BOX_STATE)!!
+            boxen = viewState.getParcelableArrayList(BOX_STATE)!!
             viewState = viewState.getParcelable(VIEW_STATE)!!
         }
-        super.onRestoreInstanceState(state)
+        val test = boxen
+        Log.i(TAG, "Bundle received: $boxen and $test and finally $viewState")
+
     }
 
 
