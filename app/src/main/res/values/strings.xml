@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">DragAndDraw</string>
+    <string name="layout_content_description">Draw boxes on screen</string>
+    <string name="place_finger_content_description">User has place finger on the screen</string>
+    <string name="move_right_content_description">Box drawn to the left</string>
+    <string name="move_left_content_description">Box drawn to the left</string>
+    <string name="leave_content_description">User has left screen</string>
+
 </resources>
