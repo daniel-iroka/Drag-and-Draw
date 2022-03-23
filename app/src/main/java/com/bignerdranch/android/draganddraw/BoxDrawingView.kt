@@ -37,7 +37,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
     }
 
 
-
     override fun onSaveInstanceState(): Parcelable {
         val bundle = Bundle()
         bundle.putParcelableArrayList(BOX_STATE, boxen)
@@ -92,6 +91,7 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
                 updateCurrentBox(current)
 
                 /** LEFT RIGHT IMPLEMENTATION **/
+                // NOT THE BEST SOLUTION BUT BASED ON A CHALLENGE
                 if (current.x > cursor) {
                     customView.contentDescription = R.string.move_right_content_description.toString()
                     cursor = current.x
@@ -104,8 +104,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
                     Log.i(TAG, "Movement is Left")
 
                 }
-
-                /** UP DOWN IMPLEMENTATION **/
             }
             MotionEvent.ACTION_UP -> {
                 action = "ACTION_UP"
