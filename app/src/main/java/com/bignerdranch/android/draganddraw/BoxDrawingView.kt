@@ -1,5 +1,6 @@
 package com.bignerdranch.android.draganddraw
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -10,13 +11,11 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintSet
 
 /** This Class is where we setup our custom View and write the Implementation for listening to touch events from the USER and draw boxes on the Screen.**/
 
 private const val TAG = "BoxDrawingView"
-private const val BOX_STATE = "box"
-private const val INVALID_POINTER_ID = -1
+private const val INVALID_POINTER_ID = 0
 
 class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         View(context, attrs) {
@@ -51,24 +50,23 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
     // PROJECT CHALLENGE, BUT STILL NOT WORKING...
     override fun onSaveInstanceState(): Parcelable {
         val bundle = Bundle()
-        bundle.putParcelableArrayList(BOX_STATE, ArrayList(boxen))
-        bundle.putParcelable("view state", super.onSaveInstanceState())
+        bundle.putParcelable("superState", super.onSaveInstanceState())
+        bundle.putParcelableArrayList("boxState", ArrayList(boxen))
 
         super.onSaveInstanceState()
         return bundle
     }
 
-
     override fun onRestoreInstanceState(state: Parcelable) {
-        super.onRestoreInstanceState(state)
-
         var viewState = state
         if (viewState is Bundle) {
-            boxen = viewState.getParcelableArrayList(BOX_STATE)!!
-            viewState = viewState.getParcelable("view state")!!
+            boxen = viewState.getParcelableArrayList("boxState")!!
+            viewState = viewState.getParcelable("superState")!!
         }
         val test = boxen
         Log.i(TAG, "Bundle received: $boxen and $test and finally $viewState")
+
+        super.onRestoreInstanceState(state)
     }
 
 
@@ -76,16 +74,16 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         // Fill in the background
         canvas.drawPaint(backGroundPaint)
 
-        // TODO - FIX THIS CANVAS LATER PLEASEE I AM CRYING
         boxen.forEach { box ->
             canvas.drawRect(box.left, box.top, box.right, box.bottom, boxPaint)
             canvas.save()
             canvas.rotate(mDegrees,  curMPosX, curMPosY)
             canvas.restore()
         }
-
+        Log.i(TAG, "Our canvas point X and point Y are $curMPosX and $curMPosY")
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val current = PointF(event.x, event.y)
         var action = ""
@@ -93,7 +91,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         var cursor = 500.0000f
 
         val mAction = event.action
-
 
         when(mAction and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
@@ -103,7 +100,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
                     boxen.add(it)
                 }
                 customView.contentDescription = R.string.place_finger_content_description.toString()
-
 
             }
             MotionEvent.ACTION_MOVE -> {
@@ -152,11 +148,15 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
                 updateCurrentBox(current)
                 currentBox = null
                 customView.contentDescription = R.string.leave_content_description.toString()
+
+                mActivePointerId = INVALID_POINTER_ID
             }
 
             MotionEvent.ACTION_CANCEL -> {
                 action = "ACTION_CANCEL"
                 currentBox = null
+
+                mActivePointerId = INVALID_POINTER_ID
             }
 
             // BASED ON PROJECT CHALLENGE.
@@ -183,8 +183,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
                 val pointerIndex = (mAction and MotionEvent.ACTION_POINTER_INDEX_MASK) shr
                         MotionEvent.ACTION_POINTER_INDEX_SHIFT
 
-                // todo - Tomorrow when I come, continue from here and also the FIRST CHALLENGE THAT I WAS NOT ABLE TO SOLVE.
-
                 val pointerId = event.getPointerId(pointerIndex)
                 if (pointerId == mActivePointerId) {
                     val newPointerIndex = if (pointerIndex == 0) 1 else 0
@@ -199,7 +197,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         // this is a log message for each of the 4 Event actions
         Log.i(TAG, "$action at x=${current.x}, y=${current.y}")
         Log.i(TAG , "$multiTouchAction at x=${current.x}, y=${current.y}")
-
         return true
     }
 
@@ -211,4 +208,5 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
             invalidate()
         }
     }
+
 }
