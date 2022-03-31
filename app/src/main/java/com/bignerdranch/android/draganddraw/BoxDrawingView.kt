@@ -66,7 +66,7 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         val test = boxen
         Log.i(TAG, "Bundle received: $boxen and $test and finally $viewState")
 
-        super.onRestoreInstanceState(state)
+        super.onRestoreInstanceState(viewState)
     }
 
 
