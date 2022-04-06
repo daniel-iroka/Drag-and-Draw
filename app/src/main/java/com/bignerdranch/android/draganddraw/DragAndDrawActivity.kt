@@ -7,5 +7,7 @@ class DragAndDrawActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drag_and_draw)
+
+        supportActionBar?.hide() // will hide the action bar
     }
 }
