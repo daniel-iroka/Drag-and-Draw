@@ -75,9 +75,9 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         canvas.drawPaint(backGroundPaint)
 
         boxen.forEach { box ->
-            canvas.drawRect(box.left, box.top, box.right, box.bottom, boxPaint)
             canvas.save()
-            canvas.rotate(mDegrees,  curMPosX, curMPosY)
+            canvas.rotate(mDegrees)  // this is pretty useless because it doesn't work
+            canvas.drawRect(box.left, box.top, box.right, box.bottom, boxPaint)
             canvas.restore()
         }
         Log.i(TAG, "Our canvas point X and point Y are $curMPosX and $curMPosY")
