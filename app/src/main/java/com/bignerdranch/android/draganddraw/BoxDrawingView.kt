@@ -20,6 +20,7 @@ private const val INVALID_POINTER_ID = 0
 class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         View(context, attrs) {
 
+
     private var currentBox: Box? = null
     private var boxen = mutableListOf<Box>()  // list of boxes to be drawn out on the screen OR arrayList()(Nana's solution)
     private var customView = View(context)
@@ -177,7 +178,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
             MotionEvent.ACTION_POINTER_UP -> {
                 multiTouchAction = "ACTION_POINTER_UP"
 
-                // TODO - IF I AM DONE WITH THIS CHALLENGE, I WILL CHECK THE MEANING OF "shr", "bitwise" and "bitCount" operators
 
                 // Here we will extract the index of the pointer that left the touch sensor
                 val pointerIndex = (mAction and MotionEvent.ACTION_POINTER_INDEX_MASK) shr
@@ -193,7 +193,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
 
             }
         }
-
         // this is a log message for each of the 4 Event actions
         Log.i(TAG, "$action at x=${current.x}, y=${current.y}")
         Log.i(TAG , "$multiTouchAction at x=${current.x}, y=${current.y}")
@@ -208,5 +207,4 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
             invalidate()
         }
     }
-
 }
