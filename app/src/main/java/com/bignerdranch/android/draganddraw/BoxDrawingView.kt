@@ -20,7 +20,6 @@ private const val INVALID_POINTER_ID = 0
 class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         View(context, attrs) {
 
-
     private var currentBox: Box? = null
     private var boxen = mutableListOf<Box>()  // list of boxes to be drawn out on the screen OR arrayList()(Nana's solution)
     private var customView = View(context)
@@ -33,7 +32,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
     private var mLastTouchY : Float = 0f
     private var mDegrees : Float = 360f
 
-
     private val boxPaint = Paint().apply {
         color = 0x22ff0000
     }
@@ -41,14 +39,11 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         color = 0xfff8efe0.toInt()
     }
 
-
     init {
         isSaveEnabled = true
         customView.contentDescription = R.string.place_finger_content_description.toString()
     }
 
-
-    // PROJECT CHALLENGE, BUT STILL NOT WORKING...
     override fun onSaveInstanceState(): Parcelable {
         val bundle = Bundle()
         bundle.putParcelable("superState", super.onSaveInstanceState())
@@ -69,7 +64,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
 
         super.onRestoreInstanceState(viewState)
     }
-
 
     override fun onDraw(canvas: Canvas) {
         // Fill in the background
@@ -125,7 +119,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
                     customView.contentDescription = ""
                 }
 
-
                 // Now we will find the index of the active pointer and fetch its position
                 val pointerIndex = event.findPointerIndex(mActivePointerId)
                 val x = event.getX(pointerIndex)
@@ -133,7 +126,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
 
                 val dx = x - mLastTouchX
                 val dy = y - mLastTouchY
-
 
                 curMPosX += dx
                 curMPosY += dy
@@ -172,12 +164,10 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
 
                 // now we will save the ID of our pointer
                 mActivePointerId = event.getPointerId(0)
-
             }
 
             MotionEvent.ACTION_POINTER_UP -> {
                 multiTouchAction = "ACTION_POINTER_UP"
-
 
                 // Here we will extract the index of the pointer that left the touch sensor
                 val pointerIndex = (mAction and MotionEvent.ACTION_POINTER_INDEX_MASK) shr
@@ -190,7 +180,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
                     mLastTouchY = event.getY(newPointerIndex)
                     mActivePointerId = event.getPointerId(newPointerIndex)
                 }
-
             }
         }
         // this is a log message for each of the 4 Event actions
@@ -198,7 +187,6 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null) :
         Log.i(TAG , "$multiTouchAction at x=${current.x}, y=${current.y}")
         return true
     }
-
 
     // will update the list of boxes... I think ???
     private fun updateCurrentBox(current: PointF) {
